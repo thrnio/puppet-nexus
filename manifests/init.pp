@@ -2,19 +2,13 @@ class nexus (
   $source  = 'http://download.sonatype.com/nexus/oss',
   $dest    = '/var/www',
   $version = '2.11.4-01',
+  $port    = '8081',
 ) {
   $source_url = "${source}/nexus-${version}-bundle.tar.gz"
 
-  include apache
+  $nexus_port = $port
+
   include java
-
-  apache::port { 'nexus-proxy': port => '80' }
-
-  apache::vhost::proxy { 'nexus-proxy':
-    serveraliases => 'nexus-proxy',
-    port          => 80,
-    dest          => 'http://localhost:8081',
-  }
 
   file { $dest:
     ensure  => 'directory',
@@ -46,6 +40,15 @@ class nexus (
   service { 'nexus':
     ensure => 'running',
     enable => 'true'
+  }
+
+  file { '$dest/nexus-${version}/conf/nexus.properties':
+    ensure  => 'file',
+    mode    => '0700',
+    owner   => 'root',
+    group   => 'root',
+    content => template("${module_name}/nexus-properties.erb"),
+    notify  => Service['nexus'],
   }
 }
 
