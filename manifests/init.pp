@@ -1,7 +1,7 @@
 class nexus (
-  $source  = 'http://download.sonatype.com/nexus/oss',
+  $source  = 'http://buildsources.delivery.puppetlabs.net/tools/',
   $dest    = '/var/www',
-  $version = '2.11.4-01',
+  $version = '2.12.0-01',
   $port    = '8081',
 ) {
   $source_url = "${source}/nexus-${version}-bundle.tar.gz"
@@ -51,4 +51,3 @@ class nexus (
     notify  => Service['nexus'],
   }
 }
-
