@@ -1,7 +1,7 @@
 class nexus (
   $source  = 'http://buildsources.delivery.puppetlabs.net/tools/',
   $dest    = '/var/www',
-  $version = '2.12.0-01',
+  $version = '2.12.1-01',
   $port    = '8081',
 ) {
   $source_url = "${source}/nexus-${version}-bundle.tar.gz"
