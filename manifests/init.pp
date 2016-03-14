@@ -18,8 +18,7 @@ class nexus (
   }
 
   file { $dest:
-    ensure  => 'directory',
-    recurse => 'true'
+    ensure  => 'directory'
   }
 
   exec { 'nexus-download':
