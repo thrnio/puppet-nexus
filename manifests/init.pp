@@ -6,15 +6,15 @@ class nexus (
 ) {
   $source_url = "${source}/nexus-${version}-bundle.tar.gz"
 
-  include apache
-  include java
+  include ::apache
+  include ::java
 
-  apache::port { 'nexus-proxy': port => '80' }
-
-  apache::vhost::proxy { 'nexus-proxy':
-    serveraliases => 'nexus-proxy',
-    port          => 80,
-    dest          => 'http://localhost:8081',
+  apache::vhost { 'nexus-proxy':
+    serveraliases  => 'nexus-proxy',
+    docroot        => false,
+    manage_docroot => false,
+    port           => 80,
+    proxy_pass     => [ { path => '/', url => 'http://localhost:8081/' } ],
   }
 
   file { $dest:
